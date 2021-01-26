@@ -30,7 +30,7 @@ namespace CAT_Snake
                 SnakeBody = _CATPart.bodies.Add();
                 _CATPart._part.Update();
                 SnakeBody.set_Name($"Player.{Player}");
-                SpawnPoint = Create.PointCoord(Utilities.XYZParse(spawnPoint), hybridBodyStream);
+                SpawnPoint = Create.PointCoord((spawnPoint.x, spawnPoint.y, 0.0), hybridBodyStream);
                 _part.Update();
                 selection.Clear();
                 selection.Add(firstPiece);
@@ -42,11 +42,11 @@ namespace CAT_Snake
                 _part.InWorkObject = pieceCopy.Shapes.Item(1);
                 Translate translate1 = (Translate)shapeFactory.AddNewTranslate2(0.0);
                 HybridShapeTranslate hybridTranslate1 = (HybridShapeTranslate)translate1.HybridShape;
-                hybridTranslate1.VectorType = 1;
-                hybridTranslate1.FirstPoint = GetRefFromObject();
-                hybridTranslate1.SecondPoint = GetRefFromObject(SpawnPoint);
-                _part.InWorkObject = hybridTranslate1;
-                _part.Update();
+                //hybridTranslate1.VectorType = 1;
+                //hybridTranslate1.FirstPoint = GetRefFromObject();
+                //hybridTranslate1.SecondPoint = GetRefFromObject(SpawnPoint);
+                //_part.InWorkObject = hybridTranslate1;
+                //_part.Update();
 
                 _part.InWorkObject = SnakeBody;
                 shapeFactory.AddNewAdd(pieceCopy);
@@ -59,7 +59,7 @@ namespace CAT_Snake
             public static void CreateSnakes(int players)
             {
                 Body HelperCube = _CATPart.bodies.Add();
-                Create.Cube(HelperCube, new object[] { 100, 100, 200 }, Globals.PieceLengthDouble);
+                Create.Cube(HelperCube, ( 100.0, 100.0, 200.0 ), Globals.PieceLengthDouble);
                 Random rand = new Random();
                 for (int i = 0; i < players; i++)
                 {

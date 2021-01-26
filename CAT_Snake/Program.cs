@@ -32,29 +32,27 @@ namespace CAT_Snake
             ShowWindow(ThisConsole, MINIMIZE);
             InitGameSetUp();
             PrintAllElements();
-            try
-            {
-                Snake.CreateSnakes(6);
-            }
-            catch (Exception ex)
-            {
-                PrintException(ex, ref Globals.errorCount);
-                ShowWindow(ThisConsole, RESTORE);
-            }
-            PrintAllElements();
+            //try
+            //{
+            //    Snake.CreateSnakes(6);
+            //}
+            //catch (Exception ex)
+            //{
+            //    PrintException(ex, ref Globals.errorCount);
+            //    ShowWindow(ThisConsole, RESTORE);
+            //}
+            //PrintAllElements();
             Console.WriteLine($"Finnished with {Globals.errorCount} errors!");
             Console.ReadLine();
         }
         public static void InitGameSetUp()
         {
-            hybridBodyStream = hybridBodies.Add();
-            hybridBodyStream.set_Name("hybridBodyStream");
-            HideAny(hybridBodyStream);
-            HybridShapePointCoord HelperOriginPt = Create.PointCoord(new object[] { 0, 0, 50 }, hybridBodyStream);
-            Body HelperCube = Create.GameCube(HelperOriginPt);
+            HybridShapePointCoord HelperOriginPt = Create.PointCoord(( 0, 0, 50 ), hybridBodyStream);
+            Body helperCube = Create.Body("helperCube");
+            
             AxisSystem HelperAxisSystem = Create._AxisSystem(HelperOriginPt, "HelperAxisSystem");
 
-            HybridShapePointCoord OriginPoint = Create.PointCoord(Utilities.XYZParse((0, 0)), hybridBodyStream);
+            HybridShapePointCoord OriginPoint = Create.PointCoord((0, 0, 0), hybridBodyStream);
             OriginPoint.set_Name("OriginPoint");
             selection.Clear();
         }

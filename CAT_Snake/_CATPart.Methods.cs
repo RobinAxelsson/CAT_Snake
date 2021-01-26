@@ -105,12 +105,7 @@ namespace CAT_Snake
                 }
                 _part.Update();
             }
-            public static object[] GetCoordinates(Point point)
-            {
-                object[] coords = new object[3];
-                point.GetCoordinates(coords);
-                return coords;
-            }
+
             public static Reference GetRefFromObject(AnyObject anyObject)
             {
                 return _part.CreateReferenceFromObject(anyObject);

@@ -14,21 +14,27 @@ namespace CAT_Snake
     {
         public static class Create
         {
-            public static HybridShapeExtrude SimpleExtrude(object[] OriginPt, double y, double z, HybridBody hybridBody)
+            public static Body Body(string name)
             {
-                HybridShapeLinePtDir line1 = LinePtDir(OriginPt, Axis.Z, z, hybridBodyStream);
+                Body body = bodies.Add();
+                body.set_Name(name);
+                _part.Update();
+                return body;
+            }
+            public static HybridShapeExtrude SimpleExtrude((double X, double Y, double Z) pointCoord, double y, double z, HybridBody hybridBody)
+            {
+                HybridShapeLinePtDir line1 = LinePtDir(pointCoord, Axis.Z, z, hybridBodyStream);
                 Reference lineRef = GetRefFromObject(line1);
                 var dir1 = GetAxisDirection(Axis.Y);
-                HybridShapeExtrude extrude1 = hybridShapeFactory.AddNewExtrude(lineRef, y, 0.0, dir1);
-                extrude1.SymmetricalExtension = false;
-                hybridBody.AppendHybridShape(extrude1);
+                HybridShapeExtrude extrude = hybridShapeFactory.AddNewExtrude(lineRef, y, 0.0, dir1);
+                extrude.SymmetricalExtension = false;
+                hybridBody.AppendHybridShape(extrude);
                 _part.Update();
-                return extrude1;
+                return extrude;
             }
-            public static HybridShapeLinePtDir LinePtDir(object[] coord, Axis axisDir, double length, HybridBody hybridBody)
+            public static HybridShapeLinePtDir LinePtDir((double X, double Y, double Z) pointCoord, Axis axisDir, double length, HybridBody hybridBody)
             {
-                HybridBody trueHybridBody = hybridBody;
-                var point = PointCoord(coord, hybridBody);
+                var point = PointCoord(pointCoord, hybridBody);
                 var pointRef = GetRefFromObject(point);
                 var dir = GetAxisDirection(axisDir);
                 HybridShapeLinePtDir line = hybridShapeFactory.AddNewLinePtDir(pointRef, dir, 0.0, length, false);
@@ -36,10 +42,9 @@ namespace CAT_Snake
                 _part.Update();
                 return line;
             }
-            public static HybridShapePointCoord PointCoord(object[] Coord, HybridBody hybridBody, AxisSystem axisSystem = null)
+            public static HybridShapePointCoord PointCoord((double X, double Y, double Z) pointCoord, HybridBody hybridBody, AxisSystem axisSystem = null)
             {
-                Utilities.CastDoubleArray(ref Coord);
-                HybridShapePointCoord point1 = hybridShapeFactory.AddNewPointCoord((double)Coord[0], (double)Coord[1], (double)Coord[2]);
+                HybridShapePointCoord point1 = hybridShapeFactory.AddNewPointCoord(pointCoord.X, pointCoord.Y, pointCoord.Z);
                 if (axisSystem != null)
                 {
                     point1.RefAxisSystem = GetRefFromObject(axisSystem);
@@ -48,24 +53,29 @@ namespace CAT_Snake
                 _part.Update();
                 return point1;
             }
-            public static HybridShapeLinePtPt PtPtLine(object[] Coord1, object[] Coord2, HybridBody hybridBody)
+            public static HybridShapeLinePtPt PtPtLine((double X, double Y, double Z) pointCoord1, (double X, double Y, double Z) pointCoord2, HybridBody hybridBody)
             {
-                var point1 = PointCoord(Coord1, hybridBody);
-                var point2 = PointCoord(Coord2, hybridBody);
+                var point1 = PointCoord(pointCoord1, hybridBody);
+                var point2 = PointCoord(pointCoord2, hybridBody);
                 Reference ref1 = GetRefFromObject(point1);
                 Reference ref2 = GetRefFromObject(point2);
-                HybridShapeLinePtPt line1 = hybridShapeFactory.AddNewLinePtPt(ref1, ref2);
-                hybridBody.AppendHybridShape(line1);
+                HybridShapeLinePtPt line = hybridShapeFactory.AddNewLinePtPt(ref1, ref2);
+                hybridBody.AppendHybridShape(line);
                 _part.Update();
-                return line1;
+                return line;
             }
             public static AxisSystem _AxisSystem(Point originPoint, string name)
             {
-                var coordRef = new object[3];
-                originPoint.GetCoordinates(coordRef);
-                var pointXdir = PointCoord(new object[] { (double)coordRef[0] + 1.0, coordRef[1], (double)coordRef[2] }, hybridBodyStream);
-                var pointYdir = PointCoord(new object[] { (double)coordRef[0], (double)coordRef[1] + 1.0, (double)coordRef[2] }, hybridBodyStream);
-                var pointZdir = PointCoord(new object[] { coordRef[0], coordRef[1], (double)coordRef[2] + 1.0 }, hybridBodyStream);
+                var pointCoord = Parse.GetDouble3dFromPt(originPoint);
+                pointCoord.X += 1.0;
+                var pointXdir = PointCoord(pointCoord, hybridBodyStream);
+                pointCoord.X -= 1.0;
+                pointCoord.Y += 1.0;
+                var pointYdir = PointCoord(pointCoord, hybridBodyStream);
+                pointCoord.Y -= 1.0;
+                pointCoord.Z += 1.0;
+                var pointZdir = PointCoord(pointCoord, hybridBodyStream);
+                
                 AxisSystem axisSystem = axisSystems.Add();
                 axisSystem.set_Name(name);
                 axisSystem.Type = CATAxisSystemMainType.catAxisSystemStandard;
@@ -82,11 +92,11 @@ namespace CAT_Snake
                 return axisSystem;
 
             }
-            public static void Cube(Body body, object[] originCoord, double length)
+            public static void Cube(Body body, (double X, double Y, double Z) coord, double length)
             {
                 selection.Clear();
                 _part.InWorkObject = body;
-                var extrude1 = SimpleExtrude(originCoord, length, length, hybridBodyStream);
+                var extrude1 = SimpleExtrude(coord, length, length, hybridBodyStream);
                 var extrudeRef1 = GetRefFromObject(extrude1);
                 ThickSurface thickSurface = shapeFactory.AddNewThickSurface(extrudeRef1, 0, 0.0, length);
                 _part.Update();
@@ -95,7 +105,7 @@ namespace CAT_Snake
             {
                 Body body = bodies.Add();
                 _part.InWorkObject = body;
-                var extrude1 = Create.SimpleExtrude(GetCoordinates(originPoint), Globals.PieceLengthDouble, Globals.PieceLengthDouble, hybridBodyStream);
+                var extrude1 = Create.SimpleExtrude(Parse.GetDouble3dFromPt(originPoint), Globals.PieceLengthDouble, Globals.PieceLengthDouble, hybridBodyStream);
                 var extrudeRef1 = GetRefFromObject(extrude1);
                 ThickSurface thickSurface = shapeFactory.AddNewThickSurface(extrudeRef1, 0, 0.0, Globals.PieceLengthDouble);
                 _part.Update();

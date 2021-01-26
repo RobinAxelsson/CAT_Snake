@@ -42,6 +42,7 @@ namespace CAT_Snake
             selection = partDocument.Selection;
             hybridBodyStream = hybridBodies.Add();
             hybridBodyStream.set_Name("hybridBodyStream");
+            HideAny(hybridBodyStream);
         }
         public static Application Catia { get; private set; }
         public static Documents documents { get; private set; }
