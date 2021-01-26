@@ -16,16 +16,16 @@ namespace CAT_Snake
         {
             public static HybridShapeExtrude SimpleExtrude(object[] OriginPt, double y, double z, HybridBody hybridBody)
             {
-                HybridShapeLinePtDir line1 = LinePtDir(OriginPt, Globals.Axis.Z, z, hybridBodyStream);
+                HybridShapeLinePtDir line1 = LinePtDir(OriginPt, Axis.Z, z, hybridBodyStream);
                 Reference lineRef = GetRefFromObject(line1);
-                var dir1 = GetAxisDirection(Globals.Axis.Y);
+                var dir1 = GetAxisDirection(Axis.Y);
                 HybridShapeExtrude extrude1 = hybridShapeFactory.AddNewExtrude(lineRef, y, 0.0, dir1);
                 extrude1.SymmetricalExtension = false;
                 hybridBody.AppendHybridShape(extrude1);
                 _part.Update();
                 return extrude1;
             }
-            public static HybridShapeLinePtDir LinePtDir(object[] coord, Globals.Axis axisDir, double length, HybridBody hybridBody)
+            public static HybridShapeLinePtDir LinePtDir(object[] coord, Axis axisDir, double length, HybridBody hybridBody)
             {
                 HybridBody trueHybridBody = hybridBody;
                 var point = PointCoord(coord, hybridBody);

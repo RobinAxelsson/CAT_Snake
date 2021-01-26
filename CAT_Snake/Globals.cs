@@ -9,18 +9,6 @@ namespace CAT_Snake
     public class Globals
     {
         public static int errorCount = 0;
-        public enum CATPasteType
-        {
-            CATPrtCont, //"As Specified In Part Document"
-            CATPrtResultWithOutLink, //As Result
-            CATPrtResult //As result with link
-        }
-        public enum Axis
-        {
-            X,
-            Y,
-            Z
-        }
         public const int PieceLengthInt = 50; //mm
         public static readonly double PieceLengthDouble = (double)PieceLengthInt;
         public const int LengthXPieces = 15;

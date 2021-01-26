@@ -113,29 +113,29 @@ namespace CAT_Snake
             }
             public static Reference GetRefFromObject(AnyObject anyObject)
             {
-                return _CATPart._part.CreateReferenceFromObject(anyObject);
+                return _part.CreateReferenceFromObject(anyObject);
             }
-            public static HybridShapeDirection GetAxisDirection(Globals.Axis axisDir)
+            public static HybridShapeDirection GetAxisDirection(Axis axisDir)
             {
                 switch (axisDir)
                 {
-                    case Globals.Axis.X:
-                        return _CATPart.hybridShapeFactory.AddNewDirection(_CATPart.AbsoluteAxisSystem.XAxisDirection);
-                    case Globals.Axis.Y:
-                        return _CATPart.hybridShapeFactory.AddNewDirection(_CATPart.AbsoluteAxisSystem.YAxisDirection);
-                    case Globals.Axis.Z:
-                        return _CATPart.hybridShapeFactory.AddNewDirection(_CATPart.AbsoluteAxisSystem.ZAxisDirection);
+                    case Axis.X:
+                        return hybridShapeFactory.AddNewDirection(AbsoluteAxisSystem.XAxisDirection);
+                    case Axis.Y:
+                        return hybridShapeFactory.AddNewDirection(AbsoluteAxisSystem.YAxisDirection);
+                    case Axis.Z:
+                        return hybridShapeFactory.AddNewDirection(AbsoluteAxisSystem.ZAxisDirection);
                     default:
                         return null;
                 }
             }
             public static HybridBody ClearHybridBody(HybridBody hybridBody)
             {
-                _CATPart.selection.Clear();
+                selection.Clear();
                 string name = hybridBody.get_Name();
-                _CATPart.selection.Add(hybridBody);
-                _CATPart.selection.Delete();
-                HybridBody newHybridBody = _CATPart.hybridBodies.Add();
+                selection.Add(hybridBody);
+                selection.Delete();
+                HybridBody newHybridBody = hybridBodies.Add();
                 newHybridBody.set_Name(name);
                 return newHybridBody;
             }
@@ -206,7 +206,7 @@ namespace CAT_Snake
                     countHB--;
                 }
                 if (exception != null) selection.Paste();
-                _CATPart._part.Update();
+                _part.Update();
             }
             //public static AnyObject PasteSpecial(AnyObject obj)
             //{
