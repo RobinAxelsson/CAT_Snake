@@ -92,26 +92,7 @@ namespace CAT_Snake
                 return axisSystem;
 
             }
-            public static void Cube(Body body, (double X, double Y, double Z) coord, double length)
-            {
-                selection.Clear();
-                _part.InWorkObject = body;
-                var extrude1 = SimpleExtrude(coord, length, length, hybridBodyStream);
-                var extrudeRef1 = GetRefFromObject(extrude1);
-                ThickSurface thickSurface = shapeFactory.AddNewThickSurface(extrudeRef1, 0, 0.0, length);
-                _part.Update();
-            }
-            public static Body GameCube(Point originPoint)
-            {
-                Body body = bodies.Add();
-                _part.InWorkObject = body;
-                var extrude1 = Create.SimpleExtrude(Parse.GetDouble3dFromPt(originPoint), Globals.PieceLengthDouble, Globals.PieceLengthDouble, hybridBodyStream);
-                var extrudeRef1 = GetRefFromObject(extrude1);
-                ThickSurface thickSurface = shapeFactory.AddNewThickSurface(extrudeRef1, 0, 0.0, Globals.PieceLengthDouble);
-                _part.Update();
-
-                return body;
-            }
+          
         }
     }
 }

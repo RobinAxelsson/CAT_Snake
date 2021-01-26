@@ -36,7 +36,9 @@ namespace CAT_Snake
                 _part = partDocument.Part;
             }
             hybridShapeFactory = (HybridShapeFactory)_part.HybridShapeFactory;
+            shapeFactory = (ShapeFactory)_part.ShapeFactory;
             hybridBodies = _part.HybridBodies;
+            bodies = _part.Bodies;
             axisSystems = _part.AxisSystems;
             AbsoluteAxisSystem = _part.AxisSystems.Item(1);
             selection = partDocument.Selection;

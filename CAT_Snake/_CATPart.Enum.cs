@@ -8,17 +8,6 @@ namespace CAT_Snake
 {
     public static partial class _CATPart
     {
-        public enum CATPasteType
-        {
-            CATPrtCont, //"As Specified In Part Document"
-            CATPrtResultWithOutLink, //As Result
-            CATPrtResult //As result with link
-        }
-        public enum Axis
-        {
-            X,
-            Y,
-            Z
-        }
+       
     }
 }

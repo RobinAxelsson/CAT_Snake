@@ -32,6 +32,7 @@ namespace CAT_Snake
             ShowWindow(ThisConsole, MINIMIZE);
             InitGameSetUp();
             PrintAllElements();
+
             //try
             //{
             //    Snake.CreateSnakes(6);
@@ -47,14 +48,9 @@ namespace CAT_Snake
         }
         public static void InitGameSetUp()
         {
-            HybridShapePointCoord HelperOriginPt = Create.PointCoord(( 0, 0, 50 ), hybridBodyStream);
-            Body helperCube = Create.Body("helperCube");
-            
-            AxisSystem HelperAxisSystem = Create._AxisSystem(HelperOriginPt, "HelperAxisSystem");
-
-            HybridShapePointCoord OriginPoint = Create.PointCoord((0, 0, 0), hybridBodyStream);
-            OriginPoint.set_Name("OriginPoint");
-            selection.Clear();
+            var helperCube = new Cube("helperCube", (0, 0, 100));
+            Body bodyCopy = CopyPasteBody(helperCube.body, CATPasteType.CATPrtResult);
+            Snake.CreateSnakes(5, helperCube);
         }
 
         
