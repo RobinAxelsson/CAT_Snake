@@ -14,7 +14,7 @@ namespace CAT_Snake
 
             public Body body { get; private set; }
             public Point originPt { get; private set; }
-            public double length { get; private set; }
+            //public double length { get; private set; }
             public Cube(string name, (double X, double Y, double Z) pointCoord)
             {
                 body = Create.Body(name);
